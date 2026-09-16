@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaBank | Digital Banking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast" class="toast"></div>
+
+  <section id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div class="brand-mark">N</div>
+      <p class="eyebrow">NOVA DIGITAL BANK</p>
+      <h1>Welcome back</h1>
+      <p class="muted">Sign in to manage your money.</p>
+      <form id="loginForm">
+        <label>Email<input id="loginEmail" type="email" value="sahil@example.com" required></label>
+        <label>Password<input id="loginPassword" type="password" value="123456" required></label>
+        <button class="primary-btn" type="submit">Sign in <span>→</span></button>
+      </form>
+      <div class="demo-note">Demo: <b>sahil@example.com</b> / <b>123456</b></div>
+    </div>
+  </section>
+
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="logo"><span>N</span><strong>NovaBank</strong></div>
+      <nav>
+        <button class="nav-item active" data-page="dashboard">⌂ <span>Dashboard</span></button>
+        <button class="nav-item" data-page="transfer">⇄ <span>Transfer Money</span></button>
+        <button class="nav-item" data-page="transactions">▤ <span>Transactions</span></button>
+        <button class="nav-item" data-page="cards">▣ <span>My Cards</span></button>
+        <button class="nav-item" data-page="analytics">◔ <span>Analytics</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <button class="nav-item" data-page="profile">⚙ <span>Settings</span></button>
+        <button id="logoutBtn" class="nav-item">↪ <span>Log out</span></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">PERSONAL BANKING</p>
+          <h2 id="pageTitle">Good morning, Sahil 👋</h2>
+        </div>
+        <div class="top-actions">
+          <button id="themeBtn" class="icon-btn">☾</button>
+          <button id="notifyBtn" class="icon-btn">♢</button>
+          <div class="avatar">SK</div>
+        </div>
+      </header>
+
+      <div id="dashboard" class="page active-page">
+        <section class="hero-grid">
+          <div class="balance-card">
+            <div><span>Total balance</span><button class="eye-btn" id="balanceToggle">◉</button></div>
+            <strong id="balance">₹84,520.40</strong>
+            <p class="positive">↑ 4.8% <span>from last month</span></p>
+            <div class="account-no">Primary account •••• 4821</div>
+          </div>
+          <div class="quick-card">
+            <h3>Quick actions</h3>
+            <div class="quick-grid">
+              <button data-action="transfer">⇄<span>Transfer</span></button>
+              <button data-action="deposit">＋<span>Deposit</span></button>
+              <button data-action="withdraw">↓<span>Withdraw</span></button>
+              <button data-action="statement">↓<span>Statement</span></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><h3>Money overview</h3><button class="text-btn" data-page="analytics">View analytics →</button></div>
+          <div class="overview-grid">
+            <div class="mini-card"><span>Income</span><strong id="income">₹1,24,500</strong><small class="positive">↑ 12.4%</small></div>
+            <div class="mini-card"><span>Expenses</span><strong id="expenses">₹39,980</strong><small>↓ 3.1%</small></div>
+            <div class="mini-card"><span>Saved this month</span><strong id="saved">₹84,520</strong><small class="positive">↑ 8.6%</small></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><h3>Recent transactions</h3><button class="text-btn" data-page="transactions">View all →</button></div>
+          <div id="recentTransactions" class="transaction-list"></div>
+        </section>
+      </div>
+
+      <div id="transfer" class="page">
+        <div class="page-card transfer-card">
+          <div class="section-head">
+            <div><p class="eyebrow">SEND MONEY</p><h2>Make a transfer</h2></div>
+            <span class="secure-badge">✓ Secure</span>
+          </div>
+          <form id="transferForm">
+            <div class="form-grid">
+              <label>Recipient name<input id="recipient" required placeholder="e.g. Rahul Sharma"></label>
+              <label>Account number<input id="accountNumber" required inputmode="numeric" placeholder="Enter account number"></label>
+              <label>IFSC code<input id="ifsc" required placeholder="e.g. NOVA0001234"></label>
+              <label>Amount<input id="transferAmount" type="number" min="1" step="0.01" required placeholder="₹ 0.00"></label>
+            </div>
+            <label>Note (optional)<input id="transferNote" placeholder="What's this transfer for?"></label>
+            <div class="form-footer"><span>Available: <b id="transferBalance">₹84,520.40</b></span><button class="primary-btn" type="submit">Review transfer →</button></div>
+          </form>
+        </div>
+      </div>
+
+      <div id="transactions" class="page">
+        <div class="section-head">
+          <div><p class="eyebrow">ACTIVITY</p><h2>Transaction history</h2></div>
+          <button class="secondary-btn" data-action="statement">Export CSV</button>
+        </div>
+        <div class="filters"><input id="searchTransactions" placeholder="Search transactions..."><select id="filterType"><option value="all">All transactions</option><option value="credit">Money in</option><option value="debit">Money out</option></select></div>
+        <div id="allTransactions" class="transaction-list full-list"></div>
+      </div>
+
+      <div id="cards" class="page">
+        <div class="section-head"><div><p class="eyebrow">CARDS</p><h2>My cards</h2></div></div>
+        <div class="cards-grid">
+          <div class="bank-card">
+            <div class="card-top"><b>NOVABANK</b><span>VISA</span></div>
+            <div class="chip">▦</div>
+            <div class="card-number">4821 0934 6621 7408</div>
+            <div class="card-bottom"><span>SAHIL KHAN<br><small>09/29</small></span><span>DEBIT</span></div>
+          </div>
+          <div class="page-card card-settings">
+            <div><h3>NovaBank Debit Card</h3><p class="muted">Primary card •••• 7408</p></div>
+            <button id="freezeBtn" class="secondary-btn">Freeze card</button>
+            <div class="setting-row"><span>Online payments</span><label class="switch"><input type="checkbox" checked><i></i></label></div>
+            <div class="setting-row"><span>International payments</span><label class="switch"><input type="checkbox"><i></i></label></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="analytics" class="page">
+        <div class="section-head"><div><p class="eyebrow">INSIGHTS</p><h2>Spending analytics</h2></div></div>
+        <div class="analytics-grid">
+          <div class="page-card chart-card"><h3>Monthly cash flow</h3><div class="bars"><i style="height:42%"></i><i style="height:65%"></i><i style="height:50%"></i><i style="height:78%"></i><i style="height:60%"></i><i style="height:88%"></i><i style="height:72%"></i></div><div class="months"><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span></div></div>
+          <div class="page-card"><h3>Top categories</h3><div class="category"><span>Food & dining</span><b>₹8,420</b><i><em style="width:72%"></em></i></div><div class="category"><span>Shopping</span><b>₹6,850</b><i><em style="width:58%"></em></i></div><div class="category"><span>Transport</span><b>₹4,230</b><i><em style="width:39%"></em></i></div><div class="category"><span>Bills</span><b>₹3,980</b><i><em style="width:33%"></em></i></div></div>
+        </div>
+      </div>
+
+      <div id="profile" class="page">
+        <div class="section-head"><div><p class="eyebrow">ACCOUNT</p><h2>Profile & settings</h2></div></div>
+        <div class="page-card profile-card">
+          <div class="profile-head"><div class="large-avatar">SK</div><div><h3>Sahil Khan</h3><p class="muted">sahil@example.com</p></div></div>
+          <div class="setting-row"><span>Two-factor authentication</span><span class="secure-badge">Enabled</span></div>
+          <div class="setting-row"><span>Email notifications</span><label class="switch"><input type="checkbox" checked><i></i></label></div>
+          <div class="setting-row"><span>Login alerts</span><label class="switch"><input type="checkbox" checked><i></i></label></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="modal" class="modal hidden"><div class="modal-box"><button id="closeModal" class="close">×</button><div id="modalContent"></div></div></div>
+  <script src="script.js"></script>
+</body>
+</html>
